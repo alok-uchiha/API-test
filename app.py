@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from flask_bcrypt import Bcrypt
 from forms import RegisterForm, LoginForm, FeedbackForm
-
+import os
 
 #configation
 
@@ -169,5 +169,5 @@ def send_feedback():
 
 
 
-if __name__ == "__main__":
-    app.run(debug=True)
+port = int(os.environ.get("PORT", 5000))
+app.run(host="0.0.0.0", port=port)
