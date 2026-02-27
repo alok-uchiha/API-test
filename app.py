@@ -140,30 +140,30 @@ def get_feedback():
     }),200
 
  
-# @app.route("/api/send_feedback", methods=["GET", "POST"])
-# @login_required
-# def send_feedback():
+@app.route("/api/send_feedback", methods=["GET", "POST"])
+@login_required
+def send_feedback():
 
-#     data= request.get_json()
+    data= request.get_json()
 
-#     if not data:
-#         return jsonify({"error": "NO json data found"}),400
+    if not data:
+        return jsonify({"error": "NO json data found"}),400
 
-#     title= data.get('title')
-#     content= data.get('content')
+    title= data.get('title')
+    content= data.get('content')
 
-#     if not title or not content:
-#         return jsonify({"error": "Missing title or content"}),400
+    if not title or not content:
+        return jsonify({"error": "Missing title or content"}),400
     
-#     feedback = {
-#         "title": title,
-#         "content": content
-#         }
+    feedback = {
+        "title": title,
+        "content": content
+        }
     
-#     return jsonify({
-#         "Message": "Feedback added Successfully",
-#         "Feedback": feedback
-#     }),201
+    return jsonify({
+        "Message": "Feedback added Successfully",
+        "Feedback": feedback
+    }),201
 
 
 
