@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Add feedback{% endblock %}
+{% block content %}
+<h2>Add feedback</h2>
+<div>
+    <form action="{{url_for('add_feedback')}}" method="POST">
+        {{ form.hidden_tag() }}
+        <div>
+            {{form.title.label}}
+            {{form.title}}
+        </div>
+        <div>
+            {{form.content.label}}
+            {{form.content}}
+        </div>
+        {{form.submit}}
+    </form>
+</div>
+{% endblock %}

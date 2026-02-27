@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Flask App{% endblock %}</title>
+    <style>
+        
+        body {
+            font-family: Arial;
+            margin: 20px;
+            background: #fafafa;
+        }
+
+        header,
+        footer {
+            background: #eee;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        a {
+            margin: 0 10px;
+            color: #333;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid #ccc;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <a href="/">Home</a>
+        <a href="/feedback">Feedback</a>
+        <a href="/register">register</a>
+        {% if current_user.is_authenticated %}
+          <a href="/logout">Logout</a>
+        {% else %}
+          <a href="/login">login</a>
+        {% endif %}
+
+    </header>
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul>
+      {% for msg in messages %}
+        <li style="color:red;">{{ msg }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+    <hr>
+    {% block content %}
+    {% endblock %}
+<hr>
+    <footer>
+        <p>Flask Practice — Template Inheritance © 2026</p>
+    </footer>
+</body>
+
+</html>

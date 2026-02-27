@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Feedback{% endblock %}
+{% block content %}
+<h2>Feedbacks</h2>
+
+<hr>
+
+<a href="{{url_for('add_feedback')}}">Add Feedback</a>
+<hr>
+{% if fb %}
+    {% for f in fb %}
+        <b>Title</b>: {{f.title}} <br>
+        <b>content</b>: {{f.content}}
+    {% endfor %}
+{% else %}
+NO feebacks yet. <a href="{{url_for('add_feedback')}}">Add Feedbacks</a>
+{% endif %}
+{% endblock %}
