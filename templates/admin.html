@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #fafaf9;
+      font-family: 'Inter', system-ui, sans-serif;
+      color: #1c1c1e;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header {
+      background: white;
+      border-bottom: 1px solid #ecebea;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .logo {
+      font-size: 1.4rem;
+      font-weight: 600;
+    }
+
+    .logo span {
+      background: linear-gradient(135deg, #1e1e2a, #3a3a44);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .nav a {
+      color: #4b4b4f;
+      text-decoration: none;
+      margin-left: 1.5rem;
+      font-size: 0.9rem;
+    }
+
+    .nav a:hover {
+      color: #1c1c1e;
+    }
+
+    .main {
+      flex: 1;
+      padding: 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    h1 {
+      font-size: 1.6rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+
+    .sub {
+      color: #6b6b70;
+      font-size: 0.85rem;
+      margin-bottom: 2rem;
+      border-left: 3px solid #d4d4d4;
+      padding-left: 0.8rem;
+    }
+
+    .feedback-list {
+      background: white;
+      border-radius: 1rem;
+      border: 1px solid #ecebea;
+      overflow: hidden;
+    }
+
+    .feedback-item {
+      padding: 1.2rem 1.5rem;
+      border-bottom: 1px solid #efedeb;
+    }
+
+    .feedback-item:last-child {
+      border-bottom: none;
+    }
+
+    .user-row {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .user-avatar {
+      width: 32px;
+      height: 32px;
+      background: #e8e6e4;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 0.75rem;
+      color: #4b4b4f;
+    }
+
+    .user-name {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #1c1c1e;
+    }
+
+    .user-email {
+      font-size: 0.7rem;
+      color: #8a8a8e;
+      font-family: monospace;
+    }
+
+    .feedback-title {
+      font-weight: 500;
+      font-size: 0.9rem;
+      color: #2c2c2e;
+      margin: 0.5rem 0 0.3rem 2.5rem;
+    }
+
+    .feedback-content {
+      color: #4b4b4f;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      margin-left: 2.5rem;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 3rem;
+      color: #b3b1ad;
+    }
+
+    .empty i {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      opacity: 0.5;
+    }
+
+    .footer {
+      background: #f1efed;
+      border-top: 1px solid #e4e2df;
+      padding: 1rem 2rem;
+      text-align: center;
+      font-size: 0.75rem;
+      color: #5c5c60;
+    }
+
+    @media (max-width: 600px) {
+      .main {
+        padding: 1rem;
+      }
+      .feedback-title, .feedback-content {
+        margin-left: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo">
+    <span>✦ minimal</span> / admin
+  </div>
+  <div class="nav">
+    <a href="{{ url_for('admin') }}">dashboard</a>
+    <a href="{{ url_for('logout') }}">logout</a>
+  </div>
+</header>
+
+<main class="main">
+  <h1>feedback</h1>
+  <div class="sub">user feedback with their details</div>
+
+  <div class="feedback-list">
+    {% if feedbacks and feedbacks|length > 0 %}
+      {% for fb in feedbacks %}
+      {% set user = users|selectattr('id', 'equalto', fb.user_id)|first %}
+      <div class="feedback-item">
+        <div class="user-row">
+          <div class="user-avatar">
+            {% if user %}
+              {{ user.username[0]|upper }}
+            {% else %}
+              ?
+            {% endif %}
+          </div>
+          <div>
+            <div class="user-name">
+              <i class="fas fa-user"></i> 
+              {% if user %}
+                {{ user.username }}
+              {% else %}
+                unknown user
+              {% endif %}
+            </div>
+            {% if user %}
+            <div class="user-email">
+              <i class="fas fa-envelope"></i> {{ user.email }}
+            </div>
+            {% endif %}
+          </div>
+        </div>
+        <div class="feedback-title">
+          <i class="fas fa-tag"></i> {{ fb.title }}
+        </div>
+        <div class="feedback-content">
+          {{ fb.content }}
+        </div>
+      </div>
+      {% endfor %}
+    {% else %}
+      <div class="empty">
+        <i class="fas fa-inbox"></i>
+        <p>no feedback yet</p>
+      </div>
+    {% endif %}
+  </div>
+</main>
+
+<footer class="footer">
+  <p>admin dashboard — feedback system</p>
+</footer>
+
+</body>
+</html>

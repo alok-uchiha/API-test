@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Dashboard | minimal</title>
+  <!-- Google Fonts + Icons (minimal but clean) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #fafaf9;
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      color: #1c1c1e;
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* header styles — minimal & sticky */
+    .dashboard-header {
+      background: #ffffff;
+      border-bottom: 1px solid #ecebea;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(2px);
+      background: rgba(255, 255, 255, 0.96);
+    }
+
+    .header-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .logo-icon {
+      font-size: 1.6rem;
+      font-weight: 600;
+      background: linear-gradient(135deg, #1e1e2a, #3a3a44);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .logo-text {
+      font-weight: 600;
+      font-size: 1.3rem;
+      letter-spacing: -0.3px;
+      color: #1c1c1e;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.8rem;
+      align-items: center;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #4b4b4f;
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: #1c1c1e;
+    }
+
+    .user-menu {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: #f3f2f0;
+      padding: 0.4rem 1rem 0.4rem 0.8rem;
+      border-radius: 40px;
+    }
+
+    .user-avatar {
+      background: #e2e0dd;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 500;
+      color: #2c2c2e;
+    }
+
+    .user-name {
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    /* MAIN CONTENT — CENTERED FLEX */
+    .dashboard-main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem;
+    }
+
+    /* CENTER CARD / CONTENT WRAPPER — everything appears in center */
+    .center-stage {
+      max-width: 900px;
+      width: 100%;
+      margin: 0 auto;
+      background: transparent;
+    }
+
+    /* welcome card / dynamic zone — this is where you add your stuff */
+    .dashboard-card {
+      background: white;
+      border-radius: 2rem;
+      border: 1px solid #ecebea;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.02), 0 2px 6px rgba(0, 0, 0, 0.03);
+      padding: 2rem 2rem 2.2rem;
+      transition: all 0.2s;
+    }
+
+    /* quick stats row example — minimal & ready to replace */
+    .stats-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+      margin: 1.8rem 0;
+      justify-content: space-between;
+    }
+
+    .stat-badge {
+      background: #f6f5f3;
+      border-radius: 28px;
+      padding: 0.6rem 1.2rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* section spacing for your custom blocks */
+    .content-block {
+      margin: 2rem 0;
+    }
+
+    .divider-light {
+      height: 1px;
+      background: #efedeb;
+      margin: 1.8rem 0;
+    }
+
+    h2 {
+      font-size: 1.6rem;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      margin-bottom: 1rem;
+    }
+
+    h3 {
+      font-size: 1.2rem;
+      font-weight: 500;
+      margin-bottom: 0.75rem;
+    }
+
+    p {
+      color: #4b4b4f;
+      margin-bottom: 1rem;
+    }
+
+    /* buttons & interactive (tiny extras) */
+    .btn-mini {
+      background: #1c1c1e;
+      color: white;
+      border: none;
+      padding: 0.5rem 1.2rem;
+      border-radius: 30px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.2s;
+      font-family: inherit;
+    }
+
+    .btn-mini-outline {
+      background: transparent;
+      border: 1px solid #d4d2cf;
+      color: #2c2c2e;
+    }
+
+    .btn-mini-outline:hover {
+      border-color: #1c1c1e;
+      background: #fafaf9;
+    }
+
+    .btn-mini:hover {
+      background: #3a3a3e;
+      transform: translateY(-1px);
+    }
+
+    /* footer */
+    .dashboard-footer {
+      background: #f1efed;
+      border-top: 1px solid #e4e2df;
+      padding: 1.5rem 2rem;
+      margin-top: auto;
+    }
+
+    .footer-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-size: 0.8rem;
+      color: #5c5c60;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.8rem;
+    }
+
+    .footer-links a {
+      text-decoration: none;
+      color: #5c5c60;
+    }
+
+    .footer-links a:hover {
+      color: #1c1c1e;
+    }
+
+    /* responsive */
+    @media (max-width: 700px) {
+      .header-container {
+        flex-direction: column;
+        text-align: center;
+      }
+      .nav-links {
+        justify-content: center;
+      }
+      .footer-container {
+        flex-direction: column;
+        text-align: center;
+      }
+      .dashboard-card {
+        padding: 1.5rem;
+      }
+      .stats-row {
+        justify-content: center;
+      }
+    }
+
+    /* utility classes to customize middle part easily */
+    .text-center {
+      text-align: center;
+    }
+    .mt-2 { margin-top: 0.8rem; }
+    .mb-2 { margin-bottom: 0.8rem; }
+    .flex-center {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ========== HEADER (minimal & complete) ========== -->
+<header class="dashboard-header">
+  <div class="header-container">
+    <div class="logo-area">
+      <span class="logo-icon">✦</span>
+      <span class="logo-text">minimal</span>
+    </div>
+    <div class="nav-links">
+      <a href="#">Dashboard</a>
+      <a href="#">Analytics</a>
+      <a href="#">Settings</a>
+      <a href="#">Support</a>
+    </div>
+    <div class="user-menu">
+      <div class="user-avatar">
+        <i class="fas fa-user" style="font-size: 0.9rem;"></i>
+      </div>
+      <span class="user-name">Alex</span>
+      <i class="fas fa-chevron-down" style="font-size: 0.7rem; color: #8a8a8e;"></i>
+    </div>
+  </div>
+</header>
+
+<!-- ========== MAIN CONTENT - everything centered ========== -->
+<main class="dashboard-main">
+  <div class="center-stage">
+    <!-- ✨ CARD CONTAINER: you can replace everything inside, but structure stays centered ✨ -->
+    <div class="dashboard-card">
+      
+      <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+      <!-- 🟢 START OF MIDDLE SECTION – EDIT FROM HERE      -->
+      <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+      
+      <div class="text-center">
+        <h2>✨ welcome {{current_user.username}}</h2>
+        <p style="max-width: 500px; margin-left: auto; margin-right: auto;">This is your central dashboard. Everything you add here will stay beautifully centered and responsive.</p>
+      </div>
+
+      <!-- example stats row – remove or modify as needed -->
+      <div class="stats-row">
+        <span class="stat-badge"><i class="fas fa-chart-line"></i> +24% growth</span>
+        <span class="stat-badge"><i class="fas fa-users"></i> 1,283 active</span>
+        <span class="stat-badge"><i class="fas fa-clock"></i> 12h avg session</span>
+      </div>
+
+      <div class="divider-light"></div>
+
+      <!-- main content zone: just code your stuff here, stays centered -->
+      <div class="content-block">
+        <h3><i class="fas fa-code-branch"></i>  quick actions</h3>
+        <p>Add widgets, recent activity, or any custom module below. The card keeps everything aligned in the middle of the page — no extra CSS required.</p>
+        
+        <!-- example grid for features (flexible, centered) -->
+        <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin: 1.5rem 0;">
+          <div style="flex: 1; min-width: 160px; background: #fafaf9; padding: 1rem; border-radius: 20px;">
+            <i class="fas fa-file-alt" style="font-size: 1.4rem; margin-bottom: 0.5rem; display: inline-block;"></i>
+            <h3 style="font-size: 1rem;">reports</h3>
+            <p style="font-size: 0.8rem;">View analytics summary</p>
+          </div>
+          <div style="flex: 1; min-width: 160px; background: #fafaf9; padding: 1rem; border-radius: 20px;">
+            <i class="fas fa-envelope" style="font-size: 1.4rem; margin-bottom: 0.5rem;"></i>
+            <h3 style="font-size: 1rem;">messages</h3>
+            <p style="font-size: 0.8rem;">3 unread</p>
+          </div>
+          <div style="flex: 1; min-width: 160px; background: #fafaf9; padding: 1rem; border-radius: 20px;">
+            <i class="fas fa-calendar-alt"></i>
+            <h3 style="font-size: 1rem;">schedule</h3>
+            <p style="font-size: 0.8rem;">next: 2pm meeting</p>
+          </div>
+        </div>
+
+        <!-- interactive demo area – shows you can easily add buttons etc -->
+        <div class="flex-center mt-2 mb-2">
+          <button class="btn-mini" id="demoBtn"><i class="fas fa-rocket"></i>  trigger action</button>
+          <button class="btn-mini btn-mini-outline"><i class="fas fa-cog"></i>  preferences</button>
+        </div>
+        <div id="demoMessage" style="font-size: 0.8rem; text-align: center; margin-top: 0.5rem; color: #6c6c70;"></div>
+      </div>
+
+      <div class="divider-light"></div>
+
+      <!-- placeholder for extra custom content: you can replace with charts or lists -->
+      <div class="content-block">
+        <h3>📋 recent activity</h3>
+        <ul style="list-style: none; margin-top: 0.8rem;">
+          <li style="padding: 0.6rem 0; border-bottom: 1px solid #efedeb;"><i class="fas fa-check-circle" style="color: #2e7d64; width: 1.6rem;"></i>  Login from new device — 2h ago</li>
+          <li style="padding: 0.6rem 0; border-bottom: 1px solid #efedeb;"><i class="fas fa-chart-simple"></i>  Dashboard report generated — yesterday</li>
+          <li style="padding: 0.6rem 0;"><i class="fas fa-user-plus"></i>  Team member joined — 3 days ago</li>
+        </ul>
+      </div>
+
+      <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+      <!-- 🟢 END OF MIDDLE SECTION – edit freely above      -->
+      <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+      
+    </div>
+    <!-- small helper note (optional) -->
+    <div style="text-align: center; margin-top: 1.2rem; font-size: 0.7rem; color: #aaa9a5;">
+      <i class="fas fa-arrows-alt"></i> centered layout — add your own components inside the card
+    </div>
+  </div>
+</main>
+
+<!-- ========== FOOTER (minimal & clean) ========== -->
+<footer class="dashboard-footer">
+  <div class="footer-container">
+    <div>© 2025 minimal dashboard — clean & centered</div>
+    <div class="footer-links">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Status</a>
+      <a href="#">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<!-- tiny script for demo button (just for interaction, remove if you want) -->
+<script>
+  (function() {
+    const btn = document.getElementById('demoBtn');
+    const msgDiv = document.getElementById('demoMessage');
+    if (btn && msgDiv) {
+      btn.addEventListener('click', function() {
+        msgDiv.innerHTML = '<i class="fas fa-sparkles"></i> action triggered! you can replace this with real logic.';
+        setTimeout(() => {
+          msgDiv.innerHTML = '';
+        }, 2500);
+      });
+    }
+  })();
+</script>
+
+</body>
+</html>

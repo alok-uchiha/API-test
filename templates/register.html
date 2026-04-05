@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #0f172a;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: #1e293b;
+            padding: 30px;
+            border-radius: 12px;
+            width: 300px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.4);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 8px;
+            background: #334155;
+            color: white;
+        }
+
+        input:focus {
+            outline: 2px solid #38bdf8;
+        }
+
+        .btn {
+            background: #38bdf8;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            background: #0ea5e9;
+        }
+
+        a {
+            color: #38bdf8;
+            text-decoration: none;
+        }
+
+        p {
+            text-align: center;
+        }
+
+        .error {
+            color: #f87171;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Create Account</h2>
+
+    <form method="POST">
+        {{ form.hidden_tag() }}
+
+        {{ form.username(placeholder="Username") }}
+        {% for e in form.username.errors %}<p class="error">{{ e }}</p>{% endfor %}
+
+        {{ form.email(placeholder="Email") }}
+        {% for e in form.email.errors %}<p class="error">{{ e }}</p>{% endfor %}
+
+        {{ form.password(placeholder="Password") }}
+        {% for e in form.password.errors %}<p class="error">{{ e }}</p>{% endfor %}
+
+        {{ form.confirm_password(placeholder="Confirm Password") }}
+        {% for e in form.confirm_password.errors %}<p class="error">{{ e }}</p>{% endfor %}
+
+        {{ form.submit(class="btn") }}
+    </form>
+
+    <p>Already have an account? <a href="{{ url_for('login') }}">Login</a></p>
+</div>
+
+</body>
+</html>
